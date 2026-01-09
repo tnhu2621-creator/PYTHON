@@ -1,0 +1,90 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Danh sách thí sinh - Đề: {{ de_thi.tieu_de }} - Môn: {{ de_thi.mon_hoc|dinh_dang_mon_hoc }} | Trang giáo viên{% endblock %}
+
+{% block content %}
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>BẢNG ĐIỀU KHIỂN</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+              <li class="breadcrumb-item active">Đề thi</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Danh sách đề thi: <span class="text-primary">{{ de_thi.tieu_de }}</span></h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Họ tên</th>
+                    <th>Lớp</th>
+                    <th>Điểm</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian nộp</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for bai in bai_lam_list %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ bai.ho_ten }}</td>
+                    <td>{{ bai.lop }}</td>
+                    <td>{{ "%.2f"|format(bai.tong_diem) if bai.tong_diem is not none else "Chưa nộp" }}</td>
+                    <td>{{ bai.thoi_diem_bat_dau.strftime("%Y-%m-%d %H:%M:%S") if bai.thoi_diem_bat_dau else "-" }}</td>
+                    <td>{{ bai.thoi_diem_nop.strftime("%Y-%m-%d %H:%M:%S") if bai.thoi_diem_nop else "-" }}</td>
+                  </tr>
+                  {% endfor %}
+
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>ID</th>
+                    <th>Họ tên</th>
+                    <th>Lớp</th>
+                    <th>Điểm</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian nộp</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+{% endblock %}

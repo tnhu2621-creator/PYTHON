@@ -1,0 +1,128 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Trang giáo viên{% endblock %}
+
+{% block content %}
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>BẢNG ĐIỀU KHIỂN</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+              <li class="breadcrumb-item active">Đề thi</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+         
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Danh sách đề thi</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tiêu đề</th>
+                    <th>Môn học</th>
+                    <th>Khối học</th>
+                    <th>Thời gian</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Link thi</th>
+                    <th>Mật khẩu</th>
+                    <th>Hành động</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for de in de_this %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ de.tieu_de }}</td>
+                    <td>{{ de.mon_hoc|dinh_dang_mon_hoc }}</td>
+                    <td>{{ de.khoi_hoc }}</td>
+                    <td>{{ de.thoi_gian }} phút</td>
+                    <td>{{ de.ngay_bat_dau.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ de.ngay_ket_thuc.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>
+                      <input type="text" class="form-control copy-input" style="width: 100px;" value="{{ url_for('vao_thi', de_thi_id=de.id, _external=True) }}" readonly>
+                    </td>
+                    <td>{{ de.mat_khau }}</td>
+                    <td>
+                      
+
+<a class="btn btn-outline-primary btn-sm mr-1 mb-1 btn-sua"
+   data-de_thi_id="{{ de.id }}"
+   data-url-thong_tin="{{ url_for('sua_de_thi', de_thi_id=de.id) }}"
+   data-url-cau_hoi="{{ url_for('sua_cau_hoi', de_thi_id=de.id) }}"
+   title="Chỉnh sửa">
+  <i class="far fa-edit"></i>
+</a>
+<a class="btn btn-outline-danger btn-sm btn-xoa mr-1 mb-1"
+   data-url="{{ url_for('xoa_de_thi', de_thi_id=de.id) }}"
+   data-id="{{ de.id }}"
+   data-tieu_de="{{ de.tieu_de }}"
+   title="Xóa">
+  <i class="far fa-trash-alt"></i>
+</a>
+                      
+                      <a href="{{ url_for('danh_sach_thi_sinh', de_thi_id=de.id) }}" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-1" title="Xem thí sinh"><i class="far fa-eye"></i></a>
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr>
+                    <td colspan="10" class="text-center text-muted">Chưa có đề thi nào</td>
+                  </tr>
+                  {% endfor %}
+
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tiêu đề</th>
+                    <th>Môn học</th>
+                    <th>Khối học</th>
+                    <th>Thời gian</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Link thi</th>
+                    <th>Mật khẩu</th>
+                    <th>Hành động</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+{% endblock %}

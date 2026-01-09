@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Đăng nhập{% endblock %}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/dist/css/adminlte.min.css') }}">
+  <!-- Sweetalert -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body class="hold-transition login-page">
+
+{% block content %}
+
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="#" class="h1"><b>Thi</b>Online</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Đăng ký tài khoản</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+    {% for category, message in messages %}
+      Swal.fire({
+        icon: '{{ "success" if category=="success" else "error" }}',
+        title: '{{ "Thông báo" if category=="success" else "Thông báo" }}',
+        text: '{{ message }}',
+        confirmButtonText: 'OK'
+      });
+    {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}
+
+      <form method="POST">
+
+<div class="input-group mb-3">
+  <input type="text" name="full_name" class="form-control" placeholder="Họ và tên" >
+  <div class="input-group-append">
+    <div class="input-group-text">
+      <span class="fas fa-id-card"></span>
+    </div>
+  </div>
+</div>
+
+        <div class="input-group mb-3">
+          <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" >
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="input-group mb-3">
+          <input type="email" name="email" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div> -->
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="password_confirm" class="form-control" placeholder="Nhập lại mật khẩu">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-1">
+          <input type="hidden" name="role" value="teacher" class="form-control">
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-paper-plane"></i> Đăng ký
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center mt-3 mb-3">
+        <p>- HOẶC -</p>
+        <a href="{{ url_for('login') }}" class="btn btn-block btn-info">
+          <i class="fas fa-user"></i> Đăng nhập
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+  <!-- jQuery -->
+  <script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- AdminLTE JS -->
+  <script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Chỉnh sửa đề thi | Trang giáo viên{% endblock %}
+
+{% block content %}
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>BẢNG ĐIỀU KHIỂN</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+              <li class="breadcrumb-item active">Đề thi</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+         
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Chỉnh sửa đề thi</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="POST">
+
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Tên đề thi:</label>
+                    <input type="text" name="tieu_de" value="{{ de_thi.tieu_de }}" class="form-control" placeholder="Nhập tên đề thi"> 
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Khối học:</label>
+                        <select class="form-control select2" style="width: 100%;" name="khoi_hoc">
+                          <option value="{{ de_thi.khoi_hoc }}" selected>Khối {{ de_thi.khoi_hoc }} (Đang chọn)</option>
+                          {% for i in range(1,13) %}
+                          <option value="{{ i }}">Khối {{ i }}</option>
+                          {% endfor %}
+                          <option value="0">Khác</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Môn học:</label>
+                        <select class="form-control select2" style="width: 100%;" name="mon_hoc">
+                          <option value="{{ de_thi.mon_hoc }}" selected>{{ de_thi.mon_hoc|dinh_dang_mon_hoc }} (Đang chọn)</option>
+                          <option value="tin_hoc">Tin học</option>
+                          <option value="am_nhac">Âm nhạc</option>
+                          <option value="my_thuat">Mỹ thuật</option>
+                          <option value="tieng_anh">Tiếng Anh</option>
+                          <option value="cong_nghe">Công nghệ</option>
+                          <option value="gdkt_va_phap_luat">Giáo dục kinh tế và Pháp luật</option>
+                          <option value="gdqp_va_an_ninh">Giáo dục Quốc phòng và an ninh</option>
+                          <option value="gd_the_chat">Giáo dục thể chất</option>
+                          <option value="hoa_hoc">Hóa học</option>
+                          <option value="lich_su">Lịch sử</option>
+                          <option value="dia_ly">Địa lý</option>
+                          <option value="ngu_van">Ngữ văn</option>
+                          <option value="sinh_hoc">Sinh học</option>
+                          <option value="toan">Toán</option>
+                          <option value="vat_ly">Vật lý</option>
+                          <option value="gd_cong_dan">Giáo dục công dân</option>
+                          <option value="khac">Khác</option>
+                        </select>
+                      </div>
+                    </div>
+<div class="col-sm-4">
+        <div class="form-group">
+          <label>Thời gian làm bài (phút):</label>
+          <input type="number" name="thoi_gian" value="{{ de_thi.thoi_gian }}" class="form-control" placeholder="60" required>
+        </div>
+      </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Ngày bắt đầu:</label>
+                        <div class="input-group date" id="ngay_bat_dau" data-target-input="nearest">
+                          <input type="text" value="{{ de_thi.ngay_bat_dau }}" class="form-control datetimepicker-input" data-target="#ngay_bat_dau" name="ngay_bat_dau" required/>
+                          <div class="input-group-append" data-target="#ngay_bat_dau" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Ngày kết thúc:</label>
+                        <div class="input-group date" id="ngay_ket_thuc" data-target-input="nearest">
+                          <input type="text" value="{{ de_thi.ngay_ket_thuc }}" class="form-control datetimepicker-input" data-target="#ngay_ket_thuc" name="ngay_ket_thuc" required/>
+                          <div class="input-group-append" data-target="#ngay_ket_thuc" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+<div class="col-sm-4">
+        <div class="form-group">
+          <label>Mật khẩu đề thi:</label>
+          <input type="text" name="mat_khau" value="{{ de_thi.mat_khau }}" class="form-control" placeholder="Tạo mật khẩu đề thi" required>
+        </div>
+      </div>
+
+
+                  </div>
+
+                  <div class="form-group">
+                    <label>Mô tả:</label>
+                    <textarea class="form-control" name="mo_ta" rows="3" placeholder="Nhập mô tả ...">{{ de_thi.mo_ta }}</textarea>
+                  </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Lưu</button>
+                  <a type="button" href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col -->
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+{% endblock %}

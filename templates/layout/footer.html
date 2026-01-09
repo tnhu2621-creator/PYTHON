@@ -1,0 +1,343 @@
+<div class="modal fade" id="modal-edit-confirm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Chia sẻ tài liệu</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Link file:</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="text" class="form-control" id="share_link" value="" disabled>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-block btn-primary btn-copy">Copy</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script>
+  $(document).ready(function () {
+    $('.btn-xoa').click(function (e) {
+      e.preventDefault(); // Ngăn link mặc định
+      var url = $(this).data('url');
+      var deId = $(this).data('id'); // lấy id
+      var deTieuDe = $(this).data('tieu_de')
+
+      Swal.fire({
+        title: 'Xác nhận xóa',
+        text: "Bạn có chắc chắn muốn xóa đề thi [" + deId + "] " + deTieuDe + " này không?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có, xóa!',
+        cancelButtonText: 'Hủy',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Tạo form ẩn gửi POST
+          var form = $('<form>', {
+            'method': 'POST',
+            'action': url
+          });
+          form.appendTo('body').submit();
+        }
+      })
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('.btn-sua').click(function () {
+      var urlThongTin = $(this).data('url-thong_tin')
+      var urlCauHoi = $(this).data('url-cau_hoi')
+
+      Swal.fire({
+        title: 'Chọn hành động',
+        text: "Bạn muốn sửa gì?",
+        icon: 'info',
+        showCancelButton: true,
+        showDenyButton: true,
+        confirmButtonText: 'Sửa thông tin đề thi',
+        denyButtonText: 'Sửa câu hỏi',
+        cancelButtonText: 'Hủy',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = urlThongTin
+        } else if (result.isDenied) {
+          window.location.href = urlCauHoi
+        }
+      })
+    })
+  });
+</script>
+
+
+<footer class="main-footer">
+  <strong>Copyright &copy; 2025 <a href="/">HỆ THỐNG THI ONLINE</a>.</strong>
+  All rights reserved.
+  <div class="float-right d-none d-sm-inline-block">
+    <b>Version</b> 3.2.0
+  </div>
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url_for('static', filename='assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+<!-- DataTables  & Plugins -->
+<script src="{{ url_for('static', filename='assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script
+  src="{{ url_for('static', filename='assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script
+  src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script
+  src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script
+  src="{{ url_for('static', filename='assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script
+  src="{{ url_for('static', filename='assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script
+  src="{{ url_for('static', filename='assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ url_for('static', filename='assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- bs-custom-file-input -->
+<script
+  src="{{ url_for('static', filename='assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<!-- InputMask -->
+<script src="{{ url_for('static', filename='assets/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ url_for('static', filename='assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- bootstrap color picker -->
+<script
+  src="{{ url_for('static', filename='assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+<!-- Sparkline -->
+<script src="{{ url_for('static', filename='assets/plugins/sparklines/sparkline.js') }}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{{ url_for('static', filename='assets/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script
+  src="{{ url_for('static', filename='assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<!-- overlayScrollbars -->
+<script
+  src="{{ url_for('static', filename='assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<!-- Bootstrap Switch -->
+<script src="{{ url_for('static', filename='assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+<!-- BS-Stepper -->
+<!-- dropzonejs -->
+<script src="{{ url_for('static', filename='assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for('static', filename='assets/dist/js/adminlte.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ url_for('static', filename='assets/dist/js/demo.js') }}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{ url_for('static', filename='assets/dist/js/pages/dashboard.js') }}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function updateNavStatus(cauHoiId) {
+      const navBtn = document.getElementById(`nav-q${cauHoiId}`);
+      if (!navBtn) return;
+
+      let answered = false;
+
+      // radio
+      document.querySelectorAll(`input[name="q${cauHoiId}"]`).forEach(r => {
+        if (r.checked) answered = true;
+      });
+
+      // textarea
+      const textarea = document.querySelector(`textarea[name="q${cauHoiId}"]`);
+      if (textarea && textarea.value.trim() !== "") {
+        answered = true;
+      }
+
+      if (answered) {
+        navBtn.classList.remove("btn-outline-secondary");
+        navBtn.classList.add("btn-primary");
+      } else {
+        navBtn.classList.remove("btn-primary");
+        navBtn.classList.add("btn-outline-secondary");
+      }
+    }
+
+    // radio
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        const id = this.name.replace('q', '');
+        updateNavStatus(id);
+      });
+    });
+
+    // textarea
+    document.querySelectorAll('textarea').forEach(textarea => {
+      textarea.addEventListener('input', function () {
+        const id = this.name.replace('q', '');
+        updateNavStatus(id);
+      });
+    });
+
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Scroll khi click số câu
+    document.querySelectorAll('.btn-nav-question').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    function markAnswered(cauHoiId) {
+      const navBtn = document.getElementById('nav-q' + cauHoiId);
+      if (navBtn) {
+        navBtn.classList.remove('btn-outline-secondary');
+        navBtn.classList.add('btn-primary');
+        navBtn.classList.remove('text-secondary');
+        navBtn.classList.add('text-white');
+      }
+    }
+
+    // Radio chọn đáp án
+    document.querySelectorAll('input[type=radio]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        const cauHoiId = this.name.replace('q', ''); // lấy đúng id
+        markAnswered(cauHoiId);
+      });
+    });
+
+    // Textarea nhập câu trả lời
+    document.querySelectorAll('textarea').forEach(text => {
+      text.addEventListener('input', function () {
+        const cauHoiId = this.name.replace('q', ''); // lấy đúng id
+        markAnswered(cauHoiId);
+      });
+    });
+  });
+</script>
+
+
+
+<script>
+  document.querySelectorAll('.copy-input').forEach(input => {
+    input.addEventListener('click', async () => {
+      try {
+        // Copy giá trị input vào clipboard
+        await navigator.clipboard.writeText(input.value);
+
+        // Hiển thị thông báo SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Đã copy',
+          text: `Link bài thi: "${input.value}"`,
+          timer: 3000,
+          showConfirmButton: false
+        });
+      } catch (err) {
+        console.error('Copy thất bại:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Không thể copy nội dung!'
+        });
+      }
+    });
+  });
+</script>
+
+
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+
+<script>
+  $(function () {
+    $('#ngay_bat_dau').datetimepicker({
+      format: 'YYYY-MM-DD HH:mm'
+    });
+    $('#ngay_ket_thuc').datetimepicker({
+      format: 'YYYY-MM-DD HH:mm'
+    });
+  });
+
+</script>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.querySelector('.custom-file-input');
+
+    fileInput.addEventListener('change', function () {
+      const fileName = this.files[0]?.name;
+      const label = this.nextElementSibling;
+      if (fileName) {
+        label.textContent = fileName;
+      }
+    });
+  });
+</script>

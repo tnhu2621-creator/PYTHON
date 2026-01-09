@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Làm bài thi | {{ de_thi.tieu_de }}{% endblock %}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/bs-stepper/css/bs-stepper.min.css') }}">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/dropzone/min/dropzone.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/dist/css/adminlte.min.css') }}">
+  <script data-cfasync="false"
+    nonce="f3a5506a-3d52-4333-aa4a-f3e9d0d83a8d">try { (function (w, d) { !function (j, k, l, m) { if (j.zaraz) console.error("zaraz is loaded twice"); else { j[l] = j[l] || {}; j[l].executed = []; j.zaraz = { deferred: [], listeners: [] }; j.zaraz._v = "5874"; j.zaraz._n = "f3a5506a-3d52-4333-aa4a-f3e9d0d83a8d"; j.zaraz.q = []; j.zaraz._f = function (n) { return async function () { var o = Array.prototype.slice.call(arguments); j.zaraz.q.push({ m: n, a: o }) } }; for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p); j.zaraz.init = () => { var q = k.getElementsByTagName(m)[0], r = k.createElement(m), s = k.getElementsByTagName("title")[0]; s && (j[l].t = k.getElementsByTagName("title")[0].text); j[l].x = Math.random(); j[l].w = j.screen.width; j[l].h = j.screen.height; j[l].j = j.innerHeight; j[l].e = j.innerWidth; j[l].l = j.location.href; j[l].r = k.referrer; j[l].k = j.screen.colorDepth; j[l].n = k.characterSet; j[l].o = (new Date).getTimezoneOffset(); if (j.dataLayer) for (const t of Object.entries(Object.entries(dataLayer).reduce((u, v) => ({ ...u[1], ...v[1] }), {}))) zaraz.set(t[0], t[1], { scope: "page" }); j[l].q = []; for (; j.zaraz.q.length;) { const w = j.zaraz.q.shift(); j[l].q.push(w) } r.defer = !0; for (const x of [localStorage, sessionStorage]) Object.keys(x || {}).filter(z => z.startsWith("_zaraz_")).forEach(y => { try { j[l]["z_" + y.slice(7)] = JSON.parse(x.getItem(y)) } catch { j[l]["z_" + y.slice(7)] = x.getItem(y) } }); r.referrerPolicy = "origin"; r.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(j[l]))); q.parentNode.insertBefore(r, q) };["complete", "interactive"].includes(k.readyState) ? zaraz.init() : j.addEventListener("DOMContentLoaded", zaraz.init) } }(w, d, "zarazData", "script"); window.zaraz._p = async d$ => new Promise(ea => { if (d$) { d$.e && d$.e.forEach(eb => { try { const ec = d.querySelector("script[nonce]"), ed = ec?.nonce || ec?.getAttribute("nonce"), ee = d.createElement("script"); ed && (ee.nonce = ed); ee.innerHTML = eb; ee.onload = () => { d.head.removeChild(ee) }; d.head.appendChild(ee) } catch (ef) { console.error(`Error executing script: ${eb}\n`, ef) } }); Promise.allSettled((d$.f || []).map(eg => fetch(eg[0], eg[1]))) } ea() }); zaraz._p({ "e": ["(function(w,d){})(window,document)"] }); })(window, document) } catch (e) { throw fetch("/cdn-cgi/zaraz/t"), e; };</script>
+  <!-- Sweetalert -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<style>
+.exam-fixed-header {
+  position: fixed;
+  top: 0px;          /* dưới navbar */
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.exam-header {
+  max-width: 2000; /* bằng container */
+  margin: auto;
+  padding: 10px 15px;
+}
+
+/* ĐẨY NỘI DUNG XUỐNG */
+.exam-content {
+  margin-top: 80px;
+}
+
+</style>
+
+<body class="hold-transition  sidebar-collapse ">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <!-- /.navbar -->
+
+
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+
+ 
+
+
+  <section class="content mt-1">
+    <div class="container-fluid">
+
+<div class="exam-fixed-header">
+  <div class="exam-header d-flex justify-content-between align-items-center">
+    <div>
+      <h5 class="mb-0 font-weight-bold text-primary">{{ de_thi.tieu_de }}</h5>
+      <span class="text-muted small">
+        Thí sinh: <strong>{{ bai_lam.ho_ten }}</strong>
+      </span>
+    </div>
+
+    <button id="timeBtn"
+            class="btn btn-outline-primary font-weight-bold px-3"
+            disabled>
+      <i class="far fa-clock"></i>
+      <span id="timer">--:--</span>
+    </button>
+
+    <button type="button"
+            id="submitBtn"
+            class="btn btn-primary px-3 shadow-sm"
+            onclick="confirmSubmitExam()">
+      Nộp bài
+    </button>
+  </div>
+</div>
+
+
+<div class="exam-content">
+      <div class="row">
+        
+        <div class="col-md-9">
+          <div class="card question-card">
+            <div class="card-body">
+
+
+
+<form id="examForm">
+{% for cau_hoi in cau_hois %}
+  <h6 id="q{{ cau_hoi.id }}" class="mb-2">
+    <span class="font-weight-bold">Câu {{ loop.index }}:</span> {{ cau_hoi.noi_dung }}
+  </h6>
+
+  {% if cau_hoi.loai == 'trac_nghiem' %}
+    <div class="answer-list">
+      {% for dap_an in cau_hoi.dap_ans %}
+        <label class="answer-item d-block" style="font-weight: normal;">
+          <input type="radio" name="q{{ cau_hoi.id }}" value="{{ dap_an.ky_hieu }}">
+          {{ dap_an.noi_dung }}
+        </label>
+      {% endfor %}
+      <hr>
+    </div>
+  {% else %}
+    <textarea class="form-control mb-3"
+              name="q{{ cau_hoi.id }}"  
+              rows="3"
+              placeholder="Nhập câu trả lời..."></textarea>
+    <hr>
+  {% endif %}
+{% endfor %}
+</form>
+
+
+
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-md-3">
+<div class="card sticky-top" style="top: 80px;">
+  <div class="card-header bg-primary">
+    <h3 class="card-title">Danh sách câu hỏi</h3>
+  </div>
+  <div class="card-body p-2">
+    <div class="d-flex flex-wrap justify-content-start">
+      {% for cau_hoi in cau_hois %}
+        <a href="#q{{ cau_hoi.id }}"
+           class="btn btn-outline-secondary btn-nav-question mr-2 mb-2"
+           id="nav-q{{ cau_hoi.id }}">
+          {{ loop.index }}
+        </a>
+      {% endfor %}
+    </div>
+    <hr>
+    <div class="small">
+      <p><i class="fas fa-square text-primary"></i> Đã chọn</p>
+      <p><i class="far fa-square text-secondary"></i> Chưa chọn</p>
+    </div>
+
+
+  </div>
+</div>
+
+        </div>
+      </div></div>
+    </div>
+  </section>
+</div>
+</div>
+          
+
+
+  <!-- jQuery -->
+  <script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}"></script>
+  <!-- Bootstrap 4 -->
+  <script src=".{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- Select2 -->
+  <script src="{{ url_for('static', filename='assets/plugins/select2/js/select2.full.min.js') }}"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="{{ url_for('static', filename='assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+  <!-- InputMask -->
+  <script src="{{ url_for('static', filename='assets/plugins/moment/moment.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+  <!-- date-range-picker -->
+  <script src="{{ url_for('static', filename='assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+  <!-- bootstrap color picker -->
+  <script src="{{ url_for('static', filename='assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{{ url_for('static', filename='assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+  <!-- Bootstrap Switch -->
+  <script src="{{ url_for('static', filename='assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+  <!-- BS-Stepper -->
+  <script src="{{ url_for('static', filename='assets/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
+  <!-- dropzonejs -->
+  <script src="{{ url_for('static', filename='assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ url_for('static', filename='assets/dist/js/adminlte.min.js?v=3.2.0') }}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src=".{{ url_for('static', filename='assets/dist/js/demo.js') }}"></script>
+  <!-- Page specific script -->
+
+<script>
+// ================== XÁC NHẬN NỘP THỦ CÔNG ==================
+function confirmSubmitExam() {
+    if (window.submitted) return;
+
+    Swal.fire({
+        title: 'Xác nhận nộp bài',
+        text: 'Sau khi nộp bạn không thể chỉnh sửa bài làm',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Nộp bài',
+        cancelButtonText: 'Tiếp tục làm',
+        reverseButtons: true
+    }).then(result => {
+        if (result.isConfirmed) {
+            submitExam();
+        }
+    });
+}
+
+// ================== THỜI GIAN ==================
+const endTime = {{ end_time }} * 1000;
+const serverNow = {{ now_utc }} * 1000;
+const timerEl = document.getElementById("timer");
+const timeBtn = document.getElementById("timeBtn");
+
+let warned = false;
+let finished = false;
+const offset = Date.now() - serverNow;
+
+// ================== SUBMIT ==================
+async function submitExam() {
+    if (window.submitted) return;
+    window.submitted = true;
+
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-lock"></i> Đã nộp';
+    }
+
+    const formData = new FormData(document.getElementById("examForm"));
+    const baiLamId = {{ bai_lam.id }};
+
+    try {
+        const res = await fetch(`/nop-bai/${baiLamId}`, {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        Swal.fire({
+            icon: data.success ? 'success' : 'error',
+            title: data.success ? 'Đã nộp bài' : 'Lỗi',
+            html: data.success
+                ? `Điểm của bạn: <b>${data.tong_diem}</b>`
+                : 'Nộp bài thất bại',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            if (data.success) window.location.href = "/";
+        });
+
+    } catch (e) {
+        window.submitted = false;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Nộp bài';
+        }
+        Swal.fire('Lỗi', 'Không thể nộp bài', 'error');
+    }
+}
+
+// ================== ĐỒNG HỒ ==================
+function updateTimer() {
+    if (finished) return;
+
+    const now = Date.now() - offset;
+    let remain = Math.floor((endTime - now) / 1000);
+
+    if (remain <= 0) {
+        finished = true;
+        timerEl.innerHTML = "00:00";
+        timeBtn.className = "btn btn-danger font-weight-bold px-3";
+
+        // ✅ AUTO SUBMIT (KHÔNG HỎI)
+        submitExam();
+        return;
+    }
+
+    const minutes = Math.floor(remain / 60);
+    const seconds = remain % 60;
+
+    timerEl.innerHTML =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+    if (remain > 180) {
+        timeBtn.className = "btn btn-outline-primary font-weight-bold px-3";
+    } else if (remain > 60) {
+        timeBtn.className = "btn btn-outline-warning font-weight-bold px-3";
+    } else {
+        timeBtn.className = "btn btn-outline-danger font-weight-bold px-3";
+    }
+
+    if (remain <= 180 && !warned) {
+        warned = true;
+        Swal.fire({
+            icon: 'warning',
+            title: 'Cảnh báo',
+            html: 'Còn 3 phút nữa sẽ hết giờ<br>Bài làm sẽ tự động nộp khi hết giờ',
+            confirmButtonText: 'OK'
+        });
+    }
+}
+
+updateTimer();
+setInterval(updateTimer, 1000);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Lắng nghe tất cả radio
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+
+    radio.addEventListener("change", function () {
+      const name = this.name;           // vd: q12
+      const questionId = name.replace('q', '');
+      const navBtn = document.getElementById(`nav-q${questionId}`);
+
+      if (!navBtn) return;
+
+      // Đổi màu sang đã chọn
+      navBtn.classList.remove('btn-outline-secondary');
+      navBtn.classList.add('btn-primary');
+    });
+
+  });
+
+});
+</script>
+
+
+
+
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+
+      //Datemask dd/mm/yyyy
+      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+      //Datemask2 mm/dd/yyyy
+      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+      //Money Euro
+      $('[data-mask]').inputmask()
+
+      //Date picker
+      $('#reservationdate').datetimepicker({
+        format: 'L'
+      });
+
+      //Date and time picker
+      $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+      //Date range picker
+      $('#reservation').daterangepicker()
+      //Date range picker with time picker
+      $('#reservationtime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+          format: 'MM/DD/YYYY hh:mm A'
+        }
+      })
+      //Date range as a button
+      $('#daterange-btn').daterangepicker(
+        {
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment()
+        },
+        function (start, end) {
+          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        }
+      )
+
+      //Timepicker
+      $('#timepicker').datetimepicker({
+        format: 'LT'
+      })
+
+      //Bootstrap Duallistbox
+      $('.duallistbox').bootstrapDualListbox()
+
+      //Colorpicker
+      $('.my-colorpicker1').colorpicker()
+      //color picker with addon
+      $('.my-colorpicker2').colorpicker()
+
+      $('.my-colorpicker2').on('colorpickerChange', function (event) {
+        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+      })
+
+      $("input[data-bootstrap-switch]").each(function () {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      })
+
+    })
+    // BS-Stepper Init
+    document.addEventListener('DOMContentLoaded', function () {
+      window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+    })
+
+    // DropzoneJS Demo Code Start
+    Dropzone.autoDiscover = false
+
+    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+    var previewNode = document.querySelector("#template")
+    previewNode.id = ""
+    var previewTemplate = previewNode.parentNode.innerHTML
+    previewNode.parentNode.removeChild(previewNode)
+
+    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+      url: "/target-url", // Set the url
+      thumbnailWidth: 80,
+      thumbnailHeight: 80,
+      parallelUploads: 20,
+      previewTemplate: previewTemplate,
+      autoQueue: false, // Make sure the files aren't queued until manually added
+      previewsContainer: "#previews", // Define the container to display the previews
+      clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+    })
+
+    myDropzone.on("addedfile", function (file) {
+      // Hookup the start button
+      file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
+    })
+
+    // Update the total progress bar
+    myDropzone.on("totaluploadprogress", function (progress) {
+      document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+    })
+
+    myDropzone.on("sending", function (file) {
+      // Show the total progress bar when upload starts
+      document.querySelector("#total-progress").style.opacity = "1"
+      // And disable the start button
+      file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+    })
+
+    // Hide the total progress bar when nothing's uploading anymore
+    myDropzone.on("queuecomplete", function (progress) {
+      document.querySelector("#total-progress").style.opacity = "0"
+    })
+
+    // Setup the buttons for all transfers
+    // The "add files" button doesn't need to be setup because the config
+    // `clickable` has already been specified.
+    document.querySelector("#actions .start").onclick = function () {
+      myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+    }
+    document.querySelector("#actions .cancel").onclick = function () {
+      myDropzone.removeAllFiles(true)
+    }
+    // DropzoneJS Demo Code End
+  </script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+    integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+    data-cf-beacon='{"version":"2024.11.0","token":"2437d112162f4ec4b63c3ca0eb38fb20","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

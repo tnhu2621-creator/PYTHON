@@ -1,0 +1,165 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thêm câu hỏi | Trang giáo viên{% endblock %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>BẢNG ĐIỀU KHIỂN</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+              <li class="breadcrumb-item active">Đề thi</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+         
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Tạo câu hỏi cho đề thi [{{ de_thi.tieu_de }}]</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+
+<form method="POST">
+
+
+    <div class="card-body">
+
+      <div class="form-group">
+        <label>Nội dung câu hỏi</label>
+        <textarea name="noi_dung" class="form-control" rows="3"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label>Loại câu hỏi</label>
+          <select class="form-control" name="loai" id="loai_cau_hoi">
+            <option value="trac_nghiem">Trắc nghiệm</option>
+            <option value="tu_luan">Tự luận</option>
+          </select>
+        </div>
+
+        <!-- <div class="col-md-4">
+          <label>Điểm</label>
+          <input type="number" name="diem" class="form-control" value="1" step="0.25">
+        </div> -->
+      </div>
+
+      <!-- Trắc nghiệm -->
+<div id="trac_nghiem_box" class="mt-3">
+    <label>Đáp án</label>
+
+    {% set ky_hieus = ['A', 'B', 'C', 'D'] %}
+    {% for i in range(4) %}
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <input type="radio" name="dap_an_dung" value="{{ ky_hieus[i] }}">
+            </span>
+        </div>
+        <input type="text" class="form-control" name="dap_an_{{ ky_hieus[i] }}" placeholder="Đáp án {{ ky_hieus[i] }}">
+    </div>
+    {% endfor %}
+    <small>Chọn đáp án đúng</small>
+</div>
+
+    </div>
+
+    <div class="card-footer">
+      <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Thêm câu hỏi</button>
+      <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary"><i class="fas fa-check"></i> Hoàn tất</a>
+    </div>
+  
+</form>
+
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col -->
+
+          
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Danh sách câu hỏi đề thi [{{ de_thi.tieu_de }}]</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+
+
+
+
+    <div class="card-body">
+
+
+
+
+<ul class="list-group">
+{% for ch in cau_hois %}
+  <li class="list-group-item">
+    <strong>{{ loop.index }}.</strong> {{ ch.noi_dung }}
+    <span class="badge badge-info">{{ ch.loai }}</span>
+    <!-- <span class="badge badge-success">{{ ch.diem }} điểm</span> -->
+  </li>
+{% endfor %}
+</ul>
+
+      
+
+    </div>
+
+    <div class="card-footer">
+
+    </div>
+  
+
+
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col -->
+
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+<script>
+$(document).ready(function () {
+    $('#loai_cau_hoi').on('change', function () {
+        if ($(this).val() === 'tu_luan') {
+            $('#trac_nghiem_box').hide();
+        } else {
+            $('#trac_nghiem_box').show();
+        }
+    });
+
+    // chạy 1 lần khi load trang
+    $('#loai_cau_hoi').trigger('change');
+});
+</script>
+
+{% endblock %}
