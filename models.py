@@ -3,10 +3,8 @@ from flask_login import UserMixin
 from datetime import datetime
 
 db = SQLAlchemy()
-
 class NguoiDung(db.Model, UserMixin):
     __tablename__ = 'nguoi_dung'
-
     id = db.Column(db.Integer, primary_key=True)
     ho_ten = db.Column(db.String(150), nullable=False)
     so_dien_thoai = db.Column(db.String(10), unique=True, nullable=False)

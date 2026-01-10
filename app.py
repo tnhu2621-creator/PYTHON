@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret123'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db.init_app(app)
 
 login_manager = LoginManager()
@@ -22,11 +21,7 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(id):
     return NguoiDung.query.get(int(id))
-
-
-# ------------------------
 # ROUTE CHO LANDING PAGE
-# ------------------------
 @app.route('/')
 def index():
     return render_template('index.html')  # index.html = landing page
