@@ -533,10 +533,7 @@ def dinh_dang_mon_hoc(value):
         "khac": "Khác",
     }
     return mapping.get(value, value)
-
-# ------------------------
 # CHẠY APP
-# ------------------------
 if __name__ == "__main__":
     import os
     # tạo folder instance nếu chưa có
