@@ -25,7 +25,6 @@ def load_user(id):
 @app.route('/')
 def index():
     return render_template('index.html')  # index.html = landing page
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
